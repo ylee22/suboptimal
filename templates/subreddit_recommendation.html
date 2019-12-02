@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Suboptimal{% endblock %}
+
+{% block head %}
+    {{ tsne_script | safe }}
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="page-header">
+            <h1>Subreddit recommendations for {{ subreddit }}</h1>
+        </div>
+
+        <br />
+
+        <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            Most similar
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                            {% for s in recommended_subreddits %}
+                                <li>{{ s }}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            Least similar
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                            {% for s in not_recommended_subreddits %}
+                                <li>{{ s }}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+        <br />
+
+        <div class="row">
+            <div class="col">
+                {% if wordcloud_present %}
+                    <img src="{% url 'webapp:word_cloud' subreddit %}">
+                {% else %}
+                    Subreddit text unavailable at this time.
+                {% endif %}
+            </div>
+            <div class="col">
+                <div class="embed-wrapper">
+                {{ tsne_div | safe }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
